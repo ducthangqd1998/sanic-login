@@ -1,15 +1,23 @@
-from sanic import Sanic
-from sanic import response
-from sanic_jinja2 import SanicJinja2
+from sanic import Request
+from sanic.response import json, html
 from sanic import Blueprint
+from apps.config.constant import SUCCESS
 
-app = Blueprint(__name__)
-jinja = SanicJinja2(app, pkg_name="main")
+main = Blueprint(__name__)
 
 
-@app.routes("/")
-async def index(request):
-    return jinja.render("main/index.js", request)
+@main.route("/")
+async def index(request: Request):
+
+    # return json({
+    #     "success": True,
+    #     "message": "Success"
+    # }, status=SUCCESS)
+    with open('apps/templates/main/login.html', "r") as f:
+        h = f.read()
+
+    return html(h)
+
 
 
 
